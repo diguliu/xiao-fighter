@@ -354,13 +354,14 @@ class Charactor:
 #Loro, criar frames para o ataque
 
 
-    def Attack(self):
+    def Attack(self,charactor):
         if not self.status == "jumping" and not self.status == "attacking" and not self.status == "dead" and not self.status == "standby" and not self.status == "walking" and not self.status == "damaged" and not self.status == "falling":
             if self.eyeDirection == DIRECTION_RIGHT:
+                charactor.sprite.image = pygame.image.load("xiao_atk.png")
                 ret = pygame.Rect(self.rect.right, self.rect.top+XIAO_HEIGHT/2, 5, 1) 
             else:
+                charactor.sprite.image = pygame.transform.flip(pygame.image.load("xiao_atk.png"))
                 ret = pygame.Rect(self.rect.left, self.rect.top+XIAO_HEIGHT/2, 5, 1) 
-
             self.damarea = ret
             self.status = "attacking"
             self.combo_hit = 1
@@ -488,7 +489,7 @@ class Charactor:
             self.StopJump()
       
         elif isinstance(event, CharactorAttackRequest) and event.charactor == self:
-            self.Attack()
+            self.Attack(event.charactor)
 
         elif isinstance(event, CharactorDefendRequest) and event.charactor == self:
             self.Defend()
